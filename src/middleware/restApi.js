@@ -1,67 +1,30 @@
-import React from 'react';
 import axios from 'axios';
 import { v1 as uuid} from 'uuid';
 
 function RestApi() {
-  const [items, setItems] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(false);
 
-  const url = 'https://cryptotickets.herokuapp.com/companies';
-
-  React.useEffect(() => {
-    try {
-      let data = getAllItems();
-      setItems(data);
-      setLoading(false);
-
-    } catch(error) {
-      setError(error);
-    }
-  }, [])
-  
-  const getItem = async (address) => {
-    try {
-      let response = await axios.get(`${url}/${address}`);
-      let data = await response.data;
-      return data;
-    } catch(error) {
-      setError(error)
-    }
-  };
-  
+  const url = 'https://cryptotickects-backend.herokuapp.com/companies';
+ 
   const getAllItems = async () => {
-    try {
-      let response = await axios.get(url);
-      let data = await response.data;
-      return data;
-    } catch(error) {
-      setError(error);
-    }
-  };
+    let response = await axios.get(url);
+    return response.data
+  }
+
+  const getItem = async (address) => {
+    let response = await axios.get(`${url}/${address}`);
+    return response.data
+  }
 
   const saveItem = async (address, name, eventHash) => {
-    try {
-        let item = {
-        id: uuid,
-        address,
-        name,
-        eventHash,
-        };
-        let response = await axios.post(url, item);
-        let data = await response.data;
-        return data;
-    } catch(error) {
-      setError(error);
-    }
-  };
 
+    let response = await axios.post(url, {id: uuid, address, name, eventHash});
+    console.log(await response.data);
+  }
+  
   return {
-    items,
-    loading,
-    error,  
+    getAllItems,
     getItem,
-    saveItem
+    saveItem,
   }
 }
 

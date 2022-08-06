@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 
 import { Box, Button, Heading, Image, Text } from '@chakra-ui/react';
 
-function Event({ events }) {
+function Event({ events, loading, setLoading }) {
+
+
   const { id } = useParams();
 
   const eventFilter = events.filter((event) => event.id === id);
@@ -11,6 +13,7 @@ function Event({ events }) {
 
   return (
     <Box width='100%' display='flex' justifyContent='center'>
+      {loading && <h1>loading...</h1>}
       <Box width='90%' display='flex' marginTop='1rem'>
         <Box width='100%'>
           <Heading paddingLeft='1rem'>{event.artist}</Heading>
