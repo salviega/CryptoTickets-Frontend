@@ -32,19 +32,11 @@ function App() {
     <Box w="100%" minHeight="100vh">
       {error && <TicketError />}
       {loading && <TicketLoading />}
-      <Header
-        connect={connectWallet}
-        wallet={wallet}
-        isConnected={walletConnected}
-      />
+      <Header connect={connectWallet} wallet={wallet} isConnected={walletConnected}/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element=
-          { <TicketHome>
-             {events?.map((event, index) => (
-               <TicketPost event={event} key={index} />))
-             }
-            </TicketHome>} />
+          {<TicketHome> {events?.map((event, index) => (<TicketPost event={event} key={index} />))}</TicketHome>} />
           <Route path="/about" element={<TicketAbout />} />
           <Route path="/maker" element={<TicketMaker signer={signer} wallet={wallet} />} />
           {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
