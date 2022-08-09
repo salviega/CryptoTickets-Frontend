@@ -73,6 +73,8 @@ function TicketProvider(props) {
     <TicketContext.Provider
       value={{
         items,
+        saveItem,
+        addToIpsf,
         wallet,
         walletConnected,
         signer,

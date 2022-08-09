@@ -26,6 +26,8 @@ function App() {
     connectWallet,
     loading,
     error,
+    saveItem,
+    addToIpsf
   } = useContext(TicketContext);
   
   return (
@@ -35,10 +37,10 @@ function App() {
       <Header connect={connectWallet} wallet={wallet} isConnected={walletConnected}/>
       <BrowserRouter>
         <Routes>
+          <Route path="/about" element={<TicketAbout />} />
+          <Route path="/maker" element={<TicketMaker saveItem={saveItem} addToIpsf={addToIpsf} signer={signer} wallet={wallet} />} />
           <Route path="/" element=
           {<TicketHome> {events?.map((event, index) => (<TicketPost event={event} key={index} />))}</TicketHome>} />
-          <Route path="/about" element={<TicketAbout />} />
-          <Route path="/maker" element={<TicketMaker signer={signer} wallet={wallet} />} />
           {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
         </Routes>
       </BrowserRouter>

@@ -1,24 +1,19 @@
 // Libraries
-import { useRef, useState,useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { ContractFactory, ethers } from 'ethers';
 import './Maker.css';
 
 // Styles
 import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
 
-// Middleware
-import { IpfsApi } from '../../middleware/ipfsApi';
-import { RestApi } from '../../middleware/restApi';
-
 // Cotracts
-import addressesContracts from '../../../public/environment/contract-address.json';
-import cryptoTickets from '../../../public/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
+// import addressesContracts from '../../../public/environment/contract-address.json';
+// import cryptoTickets from '../../../public/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
 import abi from '../../crytoTicketsABI.json';
 import byteCode from '../../crytoTicketsBitCode.json';
 
-function TicketMaker({ signer, wallet }) {
-  const {addToIpsf } = IpfsApi();
-  const {saveIteam} = RestApi();
+function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
+
   const [eventHash, setEventHash] = useState('');
   const [eventInformation, setEventInformation] = useState({
     adadMinima: '',
@@ -47,9 +42,6 @@ function TicketMaker({ signer, wallet }) {
   const aperturaDePuertas = useRef();
   const maxCapta = useRef();
 
-  useEffect(() => {
-  }, []);
-
   const clickHandler = async () => {
     if(!imageLoaded) return;
     setEventInformation({
@@ -67,7 +59,7 @@ function TicketMaker({ signer, wallet }) {
 
     await makeContract();
     await addToIpsf(eventInformation, setEventHash);
-    await saveIteam(addressContract, responsable.current.value, eventHash);
+    await saveItem(addressContract, responsable.current.value, eventHash);
     console.log("done")
   };
 
