@@ -1,6 +1,8 @@
+// Libraries
 import React from "react";
 import { ethers } from "ethers";
 
+// Middleware
 import { IpfsApi } from "../../middleware/ipfsApi.js";
 import { RestApi } from "../../middleware/restApi.js";
 

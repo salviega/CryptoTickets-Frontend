@@ -1,15 +1,21 @@
+// Libraries
 import { useRef, useState,useEffect } from 'react';
-import { ContractFactory } from 'ethers';
+import { ContractFactory, ethers } from 'ethers';
 import './Maker.css';
 
+// Styles
 import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
 
+// Middleware
 import { IpfsApi } from '../../middleware/ipfsApi';
 import { RestApi } from '../../middleware/restApi';
 
-// contract
+// Cotracts
+import addressesContracts from '../../../public/environment/contract-address.json';
+import cryptoTickets from '../../../public/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
 import abi from '../../crytoTicketsABI.json';
 import byteCode from '../../crytoTicketsBitCode.json';
+
 function TicketMaker({ signer, wallet }) {
   const {addToIpsf } = IpfsApi();
   const {saveIteam} = RestApi();
