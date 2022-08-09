@@ -1,9 +1,14 @@
 import React from 'react';
-import './TicketLoading.css';
+import { CircularProgress } from '@chakra-ui/react'
+
+import './TicketLoading.scss';
 
 function TicketLoading() {
     return (
-        <h1>Loading...</h1>
+        <div class="center">
+            <CircularProgress isIndeterminate color='blue.300' />
+        </div>
+
     )
 }
 

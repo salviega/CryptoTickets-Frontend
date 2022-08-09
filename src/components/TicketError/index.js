@@ -1,5 +1,5 @@
 import React from 'react';
-import "./TicketError.css"
+import "./TicketError.scss"
 
 function TicketError() {
     return (

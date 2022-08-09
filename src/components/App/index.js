@@ -1,11 +1,8 @@
-// libraries
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-// styles
 import { Box } from "@chakra-ui/react";
 
-// components
 import { Header } from "../../shared/Header";
 import { Footer } from "../../shared/Footer";
 import { TicketAbout } from "../TicketAbout";
@@ -32,9 +29,9 @@ function App() {
   
   return (
     <Box w="100%" minHeight="100vh">
+      <Header connect={connectWallet} wallet={wallet} isConnected={walletConnected}/>
       {error && <TicketError />}
       {loading && <TicketLoading />}
-      <Header connect={connectWallet} wallet={wallet} isConnected={walletConnected}/>
       <BrowserRouter>
         <Routes>
           <Route path="/about" element={<TicketAbout />} />

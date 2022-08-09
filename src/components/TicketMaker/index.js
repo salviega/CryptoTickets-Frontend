@@ -1,7 +1,7 @@
 // Libraries
 import { useRef, useState } from 'react';
 import { ContractFactory, ethers } from 'ethers';
-import './Maker.css';
+import './Maker.scss';
 
 // Styles
 import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
