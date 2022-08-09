@@ -3,10 +3,10 @@ import React from "react";
 import { Box } from '@chakra-ui/react'
 
 
-function About() {
+function TicketAbout() {
  return (
     <Box>hhh</Box>
    )
 }
 
-export default About
+export { TicketAbout }

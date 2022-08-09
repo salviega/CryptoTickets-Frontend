@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 
 import { Box, Button, Heading, Image, Text } from '@chakra-ui/react';
 
-function Event({ events, loading, setLoading }) {
+function TicketEvent({ event, loading, setLoading }) {
 
+  // if (event === undefined) setLoading(true)
+  // console.log(loading)
 
   const { id } = useParams();
 
-  const eventFilter = events.filter((event) => event.id === id);
-  const event = eventFilter[0];
+  // const eventFilter = events.filter((event) => event.id === id);
+  // const event = eventFilter[0];
 
   return (
     <Box width='100%' display='flex' justifyContent='center'>
@@ -36,4 +38,4 @@ function Event({ events, loading, setLoading }) {
   );
 }
 
-export default Event;
+export { TicketEvent };

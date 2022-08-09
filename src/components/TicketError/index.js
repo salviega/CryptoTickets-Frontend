@@ -1,0 +1,10 @@
+import React from 'react';
+import "./TicketError.css"
+
+function TicketError() {
+    return (
+        <h1>Error 404</h1>
+    )
+}
+
+export { TicketError }

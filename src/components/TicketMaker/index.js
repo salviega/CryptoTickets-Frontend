@@ -10,7 +10,7 @@ import { RestApi } from '../../middleware/restApi';
 // contract
 import abi from '../../crytoTicketsABI.json';
 import byteCode from '../../crytoTicketsBitCode.json';
-function Maker({ signer, wallet }) {
+function TicketMaker({ signer, wallet }) {
   const {addToIpsf } = IpfsApi();
   const {saveIteam} = RestApi();
   const [eventHash, setEventHash] = useState('');
@@ -128,4 +128,4 @@ function Maker({ signer, wallet }) {
   );
 }
 
-export default Maker;
+export { TicketMaker };

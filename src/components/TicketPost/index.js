@@ -1,9 +1,8 @@
 import React from 'react';
-
-import { Box, Image, Heading, Text, Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { Box, Image, Heading, Text, Button } from '@chakra-ui/react';
 
-function Post({ event, key }) {
+function TicketPost({ event, key }) {
   const navigate = useNavigate();
 
   return (
@@ -24,4 +23,4 @@ function Post({ event, key }) {
   );
 }
 
-export default Post;
+export { TicketPost };

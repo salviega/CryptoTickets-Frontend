@@ -6,13 +6,16 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 
 // components
-import About from "../About";
-import Event from "../Event";
-import Home from "../Home";
-import Maker from "../Maker";
-import Header from "../../shared/Header";
-import Footer from "../../shared/Footer";
-import { TicketContext } from "../TicketContext/TicketContext";
+import { Header } from "../../shared/Header";
+import { Footer } from "../../shared/Footer";
+import { TicketAbout } from "../TicketAbout";
+import { TicketEvent } from "../TicketEvent";
+import { TicketHome } from "../TicketHome";
+import { TicketMaker } from "../TicketMaker";
+import { TicketPost } from '../TicketPost';
+import { TicketContext } from "../TicketContext";
+import { TicketLoading } from "../TicketLoading"
+import { TicketError } from '../TicketError';
 
 function App() {
   const {
@@ -23,24 +26,28 @@ function App() {
     connectWallet,
     loading,
     error,
-    setLoading
   } = useContext(TicketContext);
   
   return (
     <Box w="100%" minHeight="100vh">
+      {error && <TicketError />}
+      {loading && <TicketLoading />}
       <Header
         connect={connectWallet}
         wallet={wallet}
         isConnected={walletConnected}
       />
-      {error && <h1>Error 404</h1>}
-      {loading && <h1>loading...</h1>}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home events={events}/>} />
-          <Route path={"/event/:id"} element={<Event events={events} loading={loading} setLoading={setLoading} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/maker" element={<Maker signer={signer} wallet={wallet} />} />
+          <Route path="/" element=
+          { <TicketHome>
+             {events?.map((event, index) => (
+               <TicketPost event={event} key={index} />))
+             }
+            </TicketHome>} />
+          <Route path="/about" element={<TicketAbout />} />
+          <Route path="/maker" element={<TicketMaker signer={signer} wallet={wallet} />} />
+          {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
         </Routes>
       </BrowserRouter>
       <Footer />

@@ -20,4 +20,4 @@ function Header({connect, wallet,isConnected}) {
   );
 }
 
-export default Header;
+export { Header };
