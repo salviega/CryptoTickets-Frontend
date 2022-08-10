@@ -5,7 +5,7 @@ import './TicketLoading.scss';
 
 function TicketLoading() {
     return (
-        <div class="center">
+        <div className="center">
             <CircularProgress isIndeterminate color='blue.300' />
         </div>
 

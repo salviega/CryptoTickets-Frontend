@@ -13,29 +13,26 @@ import { TicketPost } from '../TicketPost';
 import { TicketContext } from "../TicketContext";
 import { TicketLoading } from "../TicketLoading"
 import { TicketError } from '../TicketError';
+import { TicketLogin } from '../TicketLogin';
 
 function App() {
   const {
     items: events,
-    wallet,
-    walletConnected,
-    signer,
-    connectWallet,
+    saveItem,
+    addToIpsf,
     loading,
     error,
-    saveItem,
-    addToIpsf
   } = useContext(TicketContext);
   
   return (
     <Box w="100%" minHeight="100vh">
-      <Header connect={connectWallet} wallet={wallet} isConnected={walletConnected}/>
       {error && <TicketError />}
       {loading && <TicketLoading />}
+      <Header><TicketLogin /></Header>
       <BrowserRouter>
         <Routes>
           <Route path="/about" element={<TicketAbout />} />
-          <Route path="/maker" element={<TicketMaker saveItem={saveItem} addToIpsf={addToIpsf} signer={signer} wallet={wallet} />} />
+          <Route path="/maker" element={<TicketMaker saveItem={saveItem} addToIpsf={addToIpsf}/>} />
           <Route path="/" element=
           {<TicketHome> {events?.map((event, index) => (<TicketPost event={event} key={index} />))}</TicketHome>} />
           {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
