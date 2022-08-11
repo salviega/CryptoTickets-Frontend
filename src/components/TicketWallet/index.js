@@ -5,68 +5,58 @@ import { ethers } from "ethers";
 import "./TicketWallet.scss";
 import { Button } from "@chakra-ui/react";
 
-function TicketWallet() {
-  const [wallet, setWallet] = React.useState(null);
-  const [provider, setProvider] = React.useState(null);
-  const [signer, setSigner] = React.useState(null);
-  const [walletConnected, setWalletConnected] = React.useState(false);
-  const [isConnected, setIsConnected] = React.useState(false);
+function TicketWallet({walletDesconected, setWalletDesconected}) {
 
   const state = useSelector(state => state);
   const dispatch = useDispatch();
 
-  const createProvider = () => {
+  const createProvider = (content) => {
     return {
-      type: "walletConect",
+      type: "walletConected",
       payload: {
-        wallet: wallet,
-        walletConnected: walletConnected,
-        provider: provider,
-        signer: signer,
+        wallet: content.wallet,
+        provider: content.web3Provider,
+        signer: content.web3Signer,
       },
     };
   };
 
-  const requestAccount = async (provider) => {
-    if (window.ethereum) {
-      try {
-        const accounts = await provider.send("eth_requestAccounts", []);
-        setWallet(accounts[0]);
-      } catch (error) {
-        console.log(error);
-        console.log("Error connecting...");
-      }
-    } else {
-      alert("Meta Mask not detected");
-    }
-  };
+  // const requestAccount = async (provider) => {
+  //   if (window.ethereum) {
+  //     try {
+  //       const accounts = await provider.send("eth_requestAccounts", []);
+  //       setWallet(accounts[0]);
+  //     } catch (error) {
+  //       console.log(error);
+  //       console.log("Error connecting...");
+  //     }
+  //   } else {
+  //     alert("Meta Mask not detected");
+  //   }
+  // };
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
       
       const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await web3Provider.send("eth_requestAccounts", []);
+      const wallet = accounts[0];
       const web3Signer = web3Provider.getSigner();
-      await requestAccount(web3Provider);
       
-      setProvider(web3Provider);
-      setSigner(web3Signer);
-      setWalletConnected(true);
-      setIsConnected(true);
+      //await requestAccount(web3Provider);
+      // let buttonMessage = "connect wallet";
+      // if (walletConnected) buttonMessage = "..." + String(wallet).slice(38);
 
-      dispatch(createProvider());
-      console.log(state);
+      dispatch(createProvider({web3Provider, web3Signer, wallet}));
+      setWalletDesconected(false);
     } else {
-      // disconect wallet
+      // desconect wallet
     }
   };
 
-  let buttonMessage = "connect wallet";
-  if (isConnected) buttonMessage = "..." + String(wallet).slice(38);
-  else buttonMessage = "connect wallet";
-
   React.useEffect(() => {
-    if(!walletConnected) {
-      connectWallet();
+    if(walletDesconected) {
+      connectWallet()
     }
   }, []);
 
@@ -78,7 +68,7 @@ function TicketWallet() {
       onClick={connectWallet}
       minWidth="10%"
     >
-      {buttonMessage}
+      {walletDesconected ? "connect your wallet" : "xxx"}
     </Button>
   );
 }

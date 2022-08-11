@@ -1,6 +1,10 @@
-const walletReducer = (state = [], action) => {
-  if (action.type === "walletConect") return state.concat(action.payload);
-  return state;
+const walletReducer = (state, action) => { 
+  switch (action.type) {
+    case 'walletConected':
+      return state = action.payload;
+    default:
+      return state
+  }
 };
 
 export { walletReducer };

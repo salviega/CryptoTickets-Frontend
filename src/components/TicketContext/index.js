@@ -14,6 +14,7 @@ function TicketProvider(props) {
   const [items, setItems] = React.useState();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
+  const [walletDesconected, setWalletDesconected] = React.useState(true);
 
   const joinData = async () => {
     try {
@@ -45,6 +46,8 @@ function TicketProvider(props) {
         addToIpsf,
         loading,
         error,
+        walletDesconected, 
+        setWalletDesconected
       }}
     >
       {props.children}

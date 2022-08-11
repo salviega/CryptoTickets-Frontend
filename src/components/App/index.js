@@ -22,6 +22,8 @@ function App() {
     addToIpsf,
     loading,
     error,
+    walletDesconected, 
+    setWalletDesconected
   } = useContext(TicketContext);
   
   return (
@@ -29,7 +31,7 @@ function App() {
       <Box w="100%" minHeight="100vh">
         {error && <TicketError />}
         {loading && <TicketLoading />}
-        <Header><TicketWallet /></Header>
+        <Header><TicketWallet walletDesconected={walletDesconected} setWalletDesconected={setWalletDesconected} /></Header>
         <BrowserRouter>
           <Routes>
             <Route path="/about" element={<TicketAbout />} />
