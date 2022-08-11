@@ -6,11 +6,11 @@ import "./TicketWallet.scss";
 import { Button } from "@chakra-ui/react";
 
 function TicketWallet() {
-  const [wallet, setWallet] = React.useState();
+  const [wallet, setWallet] = React.useState(null);
+  const [provider, setProvider] = React.useState(null);
+  const [signer, setSigner] = React.useState(null);
   const [walletConnected, setWalletConnected] = React.useState(false);
   const [isConnected, setIsConnected] = React.useState(false);
-  const [provider, setProvider] = React.useState();
-  const [signer, setSigner] = React.useState();
 
   const state = useSelector(state => state);
   const dispatch = useDispatch();
@@ -43,9 +43,11 @@ function TicketWallet() {
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
+      
       const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-      await requestAccount(web3Provider);
       const web3Signer = web3Provider.getSigner();
+      await requestAccount(web3Provider);
+      
       setProvider(web3Provider);
       setSigner(web3Signer);
       setWalletConnected(true);
@@ -54,7 +56,7 @@ function TicketWallet() {
       dispatch(createProvider());
       console.log(state);
     } else {
-      // disconected wallet
+      // disconect wallet
     }
   };
 
@@ -63,8 +65,9 @@ function TicketWallet() {
   else buttonMessage = "connect wallet";
 
   React.useEffect(() => {
-    connectWallet();
-    //requestAccount(provider);
+    if(!walletConnected) {
+      connectWallet();
+    }
   }, []);
 
   return (

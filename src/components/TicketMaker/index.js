@@ -1,10 +1,8 @@
-// Libraries
 import { useRef, useState } from 'react';
-import { ContractFactory, ethers } from 'ethers';
 import { useSelector } from "react-redux";
-import './Maker.scss';
+import { ethers } from 'ethers';
 
-// Styles
+import './Maker.scss';
 import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
 
 // Cotracts
@@ -13,7 +11,7 @@ import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
 import abi from '../../crytoTicketsABI.json';
 import byteCode from '../../crytoTicketsBitCode.json';
 
-function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
+function TicketMaker({ saveItem ,addToIpsf }) {
 
   const [eventHash, setEventHash] = useState('');
   const [eventInformation, setEventInformation] = useState({
@@ -46,6 +44,7 @@ function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
   const state = useSelector(state => state)
 
   const clickHandler = async () => {
+    console.log(state)
     if(!imageLoaded) return;
     setEventInformation({
       adadMinima: adadMinima.current.value,
@@ -67,8 +66,8 @@ function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
   };
 
   const makeContract = async () => {
-    const factory = new ContractFactory(abi, byteCode);
-    const res = await factory.connect(signer).deploy(wallet, maxCapta);
+    const factory = new ethers.ContractFactory(abi, byteCode);
+    const res = await factory.connect(state.payload.signer).deploy(state.payload.wallet, maxCapta);
     setAddressContract(res.address);
   };
 
