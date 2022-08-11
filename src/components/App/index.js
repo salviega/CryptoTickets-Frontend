@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box } from "@chakra-ui/react";
+import './App.scss';
 
 import { Header } from "../../shared/Header";
 import { Footer } from "../../shared/Footer";
