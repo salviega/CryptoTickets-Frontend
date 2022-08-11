@@ -1,6 +1,7 @@
 // Libraries
 import { useRef, useState } from 'react';
 import { ContractFactory, ethers } from 'ethers';
+import { useSelector } from "react-redux";
 import './Maker.scss';
 
 // Styles
@@ -42,6 +43,8 @@ function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
   const aperturaDePuertas = useRef();
   const maxCapta = useRef();
 
+  const state = useSelector(state => state)
+
   const clickHandler = async () => {
     if(!imageLoaded) return;
     setEventInformation({
@@ -80,7 +83,7 @@ function TicketMaker({ signer, wallet, saveItem ,addToIpsf }) {
       reader.readAsDataURL(event.target.files[0]);
     }
   };
-
+  
   return (
     <Box width='100%' bg='white' marginBottom='1rem' paddingBottom='1rem'>
      

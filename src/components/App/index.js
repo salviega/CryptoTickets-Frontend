@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box } from "@chakra-ui/react";
@@ -13,7 +13,7 @@ import { TicketPost } from '../TicketPost';
 import { TicketContext } from "../TicketContext";
 import { TicketLoading } from "../TicketLoading"
 import { TicketError } from '../TicketError';
-import { TicketLogin } from '../TicketLogin';
+import { TicketWallet } from '../TicketWallet';
 
 function App() {
   const {
@@ -25,21 +25,23 @@ function App() {
   } = useContext(TicketContext);
   
   return (
-    <Box w="100%" minHeight="100vh">
-      {error && <TicketError />}
-      {loading && <TicketLoading />}
-      <Header><TicketLogin /></Header>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/about" element={<TicketAbout />} />
-          <Route path="/maker" element={<TicketMaker saveItem={saveItem} addToIpsf={addToIpsf}/>} />
-          <Route path="/" element=
-          {<TicketHome> {events?.map((event, index) => (<TicketPost event={event} key={index} />))}</TicketHome>} />
-          {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
-        </Routes>
-      </BrowserRouter>
-      <Footer />
-    </Box>
+    <React.Fragment>
+      <Box w="100%" minHeight="100vh">
+        {error && <TicketError />}
+        {loading && <TicketLoading />}
+        <Header><TicketWallet /></Header>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/about" element={<TicketAbout />} />
+            <Route path="/maker" element={<TicketMaker saveItem={saveItem} addToIpsf={addToIpsf}/>} />
+            <Route path="/" element=
+            {<TicketHome> {events?.map((event, index) => (<TicketPost event={event} key={index} />))}</TicketHome>} />
+            {events?.map((event, index) => <Route path={"/event/:id"} element={<TicketEvent event={event} />} key={index} />)}
+          </Routes>
+        </BrowserRouter>
+        <Footer />
+      </Box>
+    </React.Fragment>
   );
 }
 
