@@ -1,34 +1,33 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
-import './Maker.scss';
-import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
+import "./Maker.scss";
+import { Box, Button, Heading, Input, Text, Image } from "@chakra-ui/react";
 
 // Contracts
 // import addressesContracts from '../../blockchain/environment/contract-address.json';
 // import cryptoTicketsAbi from '../../blockchain/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
 
-import abi from '../../crytoTicketsABI.json';
-import byteCode from '../../crytoTicketsBitCode.json';
+import abi from "../../crytoTicketsABI.json";
+import byteCode from "../../crytoTicketsBitCode.json";
 
-function TicketMaker({ saveItem ,addToIpsf }) {
-
-  const [eventHash, setEventHash] = useState('');
+function TicketMaker({ saveItem, addToIpsf }) {
+  const [eventHash, setEventHash] = useState("");
   const [eventInformation, setEventInformation] = useState({
-    adadMinima: '',
-    artist: '',
-    aperturaDePuertas: '',
-    categoria: '',
-    city: '',
-    date: '',
-    location: '',
-    maxCapta: '',
-    nit: '',
-    responsable: '',
+    adadMinima: "",
+    artist: "",
+    aperturaDePuertas: "",
+    categoria: "",
+    city: "",
+    date: "",
+    location: "",
+    maxCapta: "",
+    nit: "",
+    responsable: "",
   });
-  const [addressContract, setAddressContract] = useState('');
-  const [imageBase64, setImageBase64] = useState('');
+  const [addressContract, setAddressContract] = useState("");
+  const [imageBase64, setImageBase64] = useState("");
   const [imageLoaded, setImageLoaded] = useState();
 
   const location = useRef();
@@ -42,11 +41,11 @@ function TicketMaker({ saveItem ,addToIpsf }) {
   const aperturaDePuertas = useRef();
   const maxCapta = useRef();
 
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
 
   const clickHandler = async () => {
-    console.log(state)
-    if(!imageLoaded) return;
+    console.log(state);
+    if (!imageLoaded) return;
     setEventInformation({
       adadMinima: adadMinima.current.value,
       artist: artist.current.value,
@@ -63,42 +62,75 @@ function TicketMaker({ saveItem ,addToIpsf }) {
     await makeContract();
     await addToIpsf(eventInformation, setEventHash);
     await saveItem(addressContract, responsable.current.value, eventHash);
-    console.log("done")
+    console.log("done");
   };
 
   const makeContract = async () => {
     const factory = new ethers.ContractFactory(abi, byteCode);
-    const res = await factory.connect(state.payload.signer).deploy(state.payload.wallet, maxCapta);
+    const res = await factory
+      .connect(state.payload.signer)
+      .deploy(state.payload.wallet, maxCapta);
     setAddressContract(res.address);
   };
 
   const onImageChange = async (event) => {
-    setImageLoaded(false)
+    setImageLoaded(false);
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (imageBase64) => {
         setImageBase64(imageBase64.target.result);
-        setImageLoaded(true)
+        setImageLoaded(true);
       };
       reader.readAsDataURL(event.target.files[0]);
     }
   };
-  
+
+  /* 
+  handleSubmit(event) {}
+  <form onSubmit=(handleSubmit)>
+            <label for="email">
+                <span>¿Cuál es tu email? </span>
+                <input type="text" id="email" placeholder="nombre@gmail.com..."/>
+            </label>
+            <label for="contraseña">
+                <span>¿Cuál es tu contraseña? </span>
+                <input type="text" id="contraseña" placeholder="****"/>
+            </label>
+            <label for="cumpleaños">
+                <span>¿Cuál es tu cumpleaños? </span>
+                <input type="date" id="cumpleaños" />
+            </label>
+            <label for="horario">
+                <span>¿En qué horario estudias? </span>
+                <input type="time" id="horario" />
+            </label>
+            <input type="submit" />
+  </form> 
+  */
+
   return (
-    <Box width='100%' bg='white' marginBottom='1rem' paddingBottom='1rem'>
-     
-      <Box display='flex' justifyContent='center'>
-        <Box width='50%' bg='#f8fafc' padding='1rem' margin="3rem" border="1px" borderColor="gray.200" boxShadow='sm' rounded='md'>
-          <Box marginTop='1rem' marginBottom='1rem'>
-            <Heading color='#003865' >Create event nft</Heading>
+    <Box width="100%" bg="white" marginBottom="1rem" paddingBottom="1rem">
+      <Box display="flex" justifyContent="center">
+        <Box
+          width="50%"
+          bg="#f8fafc"
+          padding="1rem"
+          margin="3rem"
+          border="1px"
+          borderColor="gray.200"
+          boxShadow="sm"
+          rounded="md"
+        >
+          <Box marginTop="1rem" marginBottom="1rem">
+            <Heading color="#003865">Create event nft</Heading>
             <Text>Artista:</Text>
-            <Input placeholder='' ref={artist} />
+            <Input placeholder="" ref={artist} />
             <Text>Location: </Text>
-            <Input placeholder='' ref={location} />
+            <Input placeholder="" ref={location} />
             <Text>City: </Text>
             <Input ref={city} />
             <Text>Date: </Text>
-            <Input type='datetime-local' ref={date} />
+            <Input type="datetime-local" ref={date} />
             <Text>Categoria: </Text>
             <Input ref={categoria} />
             <Text>Edad minima ingreso: </Text>
@@ -110,16 +142,21 @@ function TicketMaker({ saveItem ,addToIpsf }) {
             <Text>Apertura puertas: </Text>
             <Input ref={aperturaDePuertas} />
             <Text>maximum capacity: </Text>
-            <Input placeholder='tomas' ref={maxCapta} />
+            <Input placeholder="tomas" ref={maxCapta} />
             <Box>
               <Box>
-                {!imageBase64 ? null : <Image src={imageBase64} alt='' ></Image>}
+                {!imageBase64 ? null : <Image src={imageBase64} alt=""></Image>}
               </Box>
-              <div className='container'>
-                <span className='hiddenFileInput'>
-                  <input onChange={onImageChange} type='file' name='cambiar foto de perfil' accept='image/x-png,image/gif,image/jpeg' />
+              <div className="container">
+                <span className="hiddenFileInput">
+                  <input
+                    onChange={onImageChange}
+                    type="file"
+                    name="cambiar foto de perfil"
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
                 </span>
-             </div>
+              </div>
             </Box>
             <Button onClick={clickHandler}>create NFT</Button>
           </Box>
@@ -128,5 +165,4 @@ function TicketMaker({ saveItem ,addToIpsf }) {
     </Box>
   );
 }
-
 export { TicketMaker };
