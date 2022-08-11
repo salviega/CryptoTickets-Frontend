@@ -1,29 +1,32 @@
-import "@nomiclabs/hardhat-waffle";
+require("@nomiclabs/hardhat-waffle");
 require('dotenv').config()
 
 /** 
  @type import('hardhat/config').HardhatUserConfig  
 **/
 
-export const paths = {
-  sources: "./hardhat/contracts",
-  tests: "./hardhat/test",
-  cache: "./hardhat/cache",
-  artifacts: "./hardhat/artifacts"
-};
-export const defaultNetwork = "kovan";
-export const networks = {
-  hardhat: {
-    // If want to do some forking, uncomment this
-    // forking: {
-    //  url: MAINNET_RPC_URL
-    // }
+module.exports = {
+  paths: { //se enrutan las fuentes del blockchain
+    sources: "./src/blockchain/hardhat/contracts",
+    tests: "./src/blockchain/hardhat/test",
+    cache: "./src/blockchain/hardhat/cache",
+    artifacts: "./src/blockchain/hardhat/artifacts"
   },
-  localhost: {},
-  kovan: {
-    url: process.env.KOVAN_RPC_URL,
-    accounts: [process.env.PRIVATE_KEY],
-    saveDeployments: true,
-  }
+  defaultNetwork: "kovan",
+    networks: {
+      hardhat: {
+        // If want to do some forking, uncomment this
+        // forking: {
+        //  url: MAINNET_RPC_URL
+        // }
+      },
+      localhost: {
+      },
+      kovan: {
+        url: process.env.KOVAN_RPC_URL,
+        accounts: [process.env.PRIVATE_KEY],
+        saveDeployments: true,
+      }
+    },
+  solidity: "0.8.9",
 };
-export const solidity = "0.8.9";

@@ -32,7 +32,9 @@ function App() {
       <Box w="100%" minHeight="100vh">
         {error && <TicketError />}
         {loading && <TicketLoading />}
-        <Header><TicketWallet walletDesconected={walletDesconected} setWalletDesconected={setWalletDesconected} /></Header>
+        <Header>
+          <TicketWallet walletDesconected={walletDesconected} setWalletDesconected={setWalletDesconected} />
+        </Header>
         <BrowserRouter>
           <Routes>
             <Route path="/about" element={<TicketAbout />} />

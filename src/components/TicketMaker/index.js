@@ -5,9 +5,10 @@ import { ethers } from 'ethers';
 import './Maker.scss';
 import { Box, Button, Heading, Input, Text, Image } from '@chakra-ui/react';
 
-// Cotracts
-// import addressesContracts from '../../../public/environment/contract-address.json';
-// import cryptoTickets from '../../../public/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
+// Contracts
+// import addressesContracts from '../../blockchain/environment/contract-address.json';
+// import cryptoTicketsAbi from '../../blockchain/hardhat/artifacts/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json'
+
 import abi from '../../crytoTicketsABI.json';
 import byteCode from '../../crytoTicketsBitCode.json';
 
