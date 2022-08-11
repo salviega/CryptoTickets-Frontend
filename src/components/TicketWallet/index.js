@@ -34,6 +34,7 @@ function TicketWallet({walletDesconected, setWalletDesconected}) {
   //     alert("Meta Mask not detected");
   //   }
   // };
+  //
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
