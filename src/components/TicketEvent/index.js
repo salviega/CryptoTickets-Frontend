@@ -1,14 +1,13 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react'
+import { useParams } from 'react-router-dom'
 
-import { Box, Button, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Image, Text } from '@chakra-ui/react'
 
-function TicketEvent({ event, loading, setLoading }) {
-
+function TicketEvent ({ event, loading, setLoading }) {
   // if (event === undefined) setLoading(true)
   // console.log(loading)
 
-  const { id } = useParams();
+  const { id } = useParams()
 
   // const eventFilter = events.filter((event) => event.id === id);
   // const event = eventFilter[0];
@@ -35,7 +34,7 @@ function TicketEvent({ event, loading, setLoading }) {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
 
-export { TicketEvent };
+export { TicketEvent }

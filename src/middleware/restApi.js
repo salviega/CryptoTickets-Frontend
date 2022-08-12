@@ -1,32 +1,31 @@
-import axios from 'axios';
-import { v1 as uuid} from 'uuid';
+import axios from 'axios'
+import { v1 as uuid } from 'uuid'
 
-function RestApi() {
+function RestApi () {
+  const url = 'https://cryptotickects-backend.herokuapp.com/companies'
 
-  const url = 'https://cryptotickects-backend.herokuapp.com/companies';
- 
   const getAllItems = async () => {
-    let response = await axios.get(url);
+    const response = await axios.get(url)
     return response.data
   }
 
   const getItem = async (address) => {
-    let response = await axios.get(`${url}/${address}`);
+    const response = await axios.get(`${url}/${address}`)
     return response.data
   }
 
   const saveItem = async (address, name, eventHash) => {
-    let x = {id: uuid(), address: address, name:name, eventHash:eventHash};
+    const x = { id: uuid(), address, name, eventHash }
     console.log(x)
-    let response = await axios.post(url, {id: uuid(), address: address, name:name, eventHash:eventHash});
-    console.log(await response.data);
+    const response = await axios.post(url, { id: uuid(), address, name, eventHash })
+    console.log(await response.data)
   }
-  
+
   return {
     getAllItems,
     getItem,
-    saveItem,
+    saveItem
   }
 }
 
-export { RestApi };
+export { RestApi }

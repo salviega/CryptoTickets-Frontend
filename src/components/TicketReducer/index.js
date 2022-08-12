@@ -1,10 +1,11 @@
-const walletReducer = (state, action) => { 
+const walletReducer = (state, action) => {
   switch (action.type) {
     case 'walletConected':
-      return state = action.payload;
+      state = action.payload
+      break
     default:
       return state
   }
-};
+}
 
-export { walletReducer };
+export { walletReducer }

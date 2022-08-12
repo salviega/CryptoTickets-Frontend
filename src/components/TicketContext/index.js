@@ -1,42 +1,42 @@
-import React from "react";
+import React from 'react'
 
-import { IpfsApi } from "../../middleware/ipfsApi.js";
-import { RestApi } from "../../middleware/restApi.js";
+import { IpfsApi } from '../../middleware/ipfsApi.js'
+import { RestApi } from '../../middleware/restApi.js'
 
 const TicketContext = React.createContext({
-  currentUser: null,
-});
+  currentUser: null
+})
 
-function TicketProvider(props) {
-  const { getAllItems, getItem, saveItem } = RestApi();
-  const { addToIpsf, getIpsf } = IpfsApi();
+function TicketProvider (props) {
+  const { getAllItems, getItem, saveItem } = RestApi()
+  const { addToIpsf, getIpsf } = IpfsApi()
 
-  const [items, setItems] = React.useState();
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(false);
-  const [walletDesconected, setWalletDesconected] = React.useState(true);
+  const [items, setItems] = React.useState()
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(false)
+  const [walletDesconected, setWalletDesconected] = React.useState(true)
 
   const joinData = async () => {
     try {
-      let data = await getAllItems();
-      let promises = data.map(async (item, index) => {
-        let itemInfo = await getIpsf(item.eventHash);
+      const data = await getAllItems()
+      const promises = data.map(async (item, index) => {
+        const itemInfo = await getIpsf(item.eventHash)
         return (data[index] = {
           ...data[index],
-          ...itemInfo,
-        });
-      });
-      let results = await Promise.all(promises);
-      setItems(results);
-      setLoading(false);
+          ...itemInfo
+        })
+      })
+      const results = await Promise.all(promises)
+      setItems(results)
+      setLoading(false)
     } catch (error) {
-      setError(error);
+      setError(error)
     }
-  };
+  }
 
   React.useEffect(() => {
-    joinData();
-  }, []);
+    joinData()
+  }, [])
 
   return (
     <TicketContext.Provider
@@ -46,13 +46,13 @@ function TicketProvider(props) {
         addToIpsf,
         loading,
         error,
-        walletDesconected, 
+        walletDesconected,
         setWalletDesconected
       }}
     >
       {props.children}
     </TicketContext.Provider>
-  );
+  )
 }
 
-export { TicketContext, TicketProvider };
+export { TicketContext, TicketProvider }
