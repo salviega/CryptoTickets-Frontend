@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\santiago.viana\\cryptoTickets\\cryptoTickets-frontend\\src\\blockchain\\hardhat\\contracts\\CryptoTickets.sol": {
-      "lastModificationDate": 1660248972395,
-      "contentHash": "426bf3ef0a4b9f4156519ebfeb1a8c16",
+      "lastModificationDate": 1660330145854,
+      "contentHash": "36d7880d4ff7b38f57bbe348d736e137",
       "sourceName": "src/blockchain/hardhat/contracts/CryptoTickets.sol",
       "solcConfig": {
         "version": "0.8.9",

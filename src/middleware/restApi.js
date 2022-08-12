@@ -16,8 +16,9 @@ function RestApi() {
   }
 
   const saveItem = async (address, name, eventHash) => {
-
-    let response = await axios.post(url, {id: uuid, address, name, eventHash});
+    let x = {id: uuid(), address: address, name:name, eventHash:eventHash};
+    console.log(x)
+    let response = await axios.post(url, {id: uuid(), address: address, name:name, eventHash:eventHash});
     console.log(await response.data);
   }
   

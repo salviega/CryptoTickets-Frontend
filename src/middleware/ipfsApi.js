@@ -4,11 +4,12 @@ function IpfsApi() {
 
   const url = 'https://ipfs.infura.io:5001/api/v0';
 
-  const addToIpsf = async (item) => {
+  const addToIpsf = async (state, item) => {
       const stringifiedItem = JSON.stringify(item);
       const client = create(url);
       const created = await client.add(stringifiedItem);
       console.log(created.path);
+      state(created.path);
   };
   
   const getIpsf = async (path) => {

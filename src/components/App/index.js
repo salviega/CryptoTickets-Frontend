@@ -16,6 +16,9 @@ import { TicketLoading } from "../TicketLoading"
 import { TicketError } from '../TicketError';
 import { TicketWallet } from '../TicketWallet';
 
+import { v4 as uuid} from 'uuid';
+
+
 function App() {
   const {
     items: events,

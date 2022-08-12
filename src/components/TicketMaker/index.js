@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import { ethers } from "ethers";
 
 import "./Maker.scss";
-import { Box, Button, Heading, Input, Text, Image } from "@chakra-ui/react";
+import { Box, Button, Heading, Input, Text } from "@chakra-ui/react";
 
-import addresses from '../../blockchain/environment/contract-address.json';
-import cryptoTicketsAbi from '../../blockchain/hardhat/artifacts/src/blockchain/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json';
+import cryptoTicketsCompile from '../../blockchain/hardhat/artifacts/src/blockchain/hardhat/contracts/CryptoTickets.sol/CryptoTickets.json';
 
 function TicketMaker({ saveItem, addToIpsf }) {
-  const [eventHash, setEventHash] = useState("");
+  const [eventHash, setEventHash] = useState('...');
+  const [addressContract, setAddressContract] = useState('');
   const state = useSelector((state) => state);
 
   const location = useRef();
@@ -18,58 +18,62 @@ function TicketMaker({ saveItem, addToIpsf }) {
   const date = useRef();
   const categoria = useRef();
   const adadMinima = useRef();
-  const responsable = useRef();
+  const admin = useRef();
   const nit = useRef();
   const aperturaDePuertas = useRef();
   const maxCapta = useRef();
+  const nftImage = useRef();
+  const tokenName = useRef();
+  const tokenSymbol = useRef();
 
- 
-  const handleSubmit = async () => {
-    //console.log(state);
-    const cryptoTicketsContract = new ethers.Contract(addresses.cryptoticketcontract, cryptoTicketsAbi.abi, state.provider);
-    console.log(cryptoTicketsContract)
-    
+  const handleSubmit = async () => {    
     const eventInfo = {
       adadMinima: adadMinima.current.value,
+      admin: admin.current.value,
       artist: artist.current.value,
       aperturaDePuertas: aperturaDePuertas.current.value,
       categoria: categoria.current.value,
       city: city.current.value,
       date: date.current.value,
       location: location.current.value,
+      nftImage: nftImage.current.value,
       maxCapta: maxCapta.current.value,
       nit: nit.current.value,
-      responsable: responsable.current.value,
+      symbol: tokenSymbol.current.value,
+      tokenName: tokenName.current.value
     }
     
-    await makeContract(cryptoTicketsContract);
-    await addToIpsf(eventInfo, setEventHash);
-    //await saveItem(addresses.cryptoticketcontract, responsable.current.value, eventHash);
-    console.log("done");
+    await deployContract(setAddressContract, {admin: state.wallet, maxCapta: eventInfo.maxCapta, name: eventInfo.tokenName, symbol: eventInfo.symbol}); // burned data
+    await addToIpsf(setEventHash, eventInfo);
+    await saveItem(addressContract, eventInfo.admin, eventHash);
   };
 
-  const makeContract = async () => {
-    const cryptoTicketsContract = new ethers.Contract(addresses.cryptoticketcontract, cryptoTicketsAbi.abi, state.signer);
-    //console.log(cryptoTicketsContract)
-    // const res = await factory
-    //   .connect(state.payload.signer)
-    //   .deploy(state.payload.wallet, maxCapta);
-    // setAddressContract(res.address);
+  const deployContract = async (stateHook, constructor) => {
+    try{
+      const contractFactory = new ethers.ContractFactory(cryptoTicketsCompile.abi, cryptoTicketsCompile.bytecode, state.signer);
+      const contract = await contractFactory.deploy(constructor.admin, constructor.maxCapta, constructor.name, constructor.symbol) // ,option - burned data 
+      await contract.deployed()
+      console.log(`Deployment successful! Contract Address: ${contract.address}`)
+      stateHook(contract.address);
+    }catch(error) {
+      console.log('Error: ', error)
+    }
+    
   };
 
-  const onTransformImageToBase64 = async (event) => {
-    if (event.target.files && event.target.files[0]) {
-      let imageBase64 = '';
-      let reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0])
-      reader.onload = () => { 
-        imageBase64 = reader.result;
-      }
-      //reader.readAsDataURL(event.target.files[0]);
-      console.log(imageBase64);
-      //return imageBase64
-    };
-  };
+  // const onTransformImageToBase64 = async (event) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     let imageBase64 = '';
+  //     let reader = new FileReader();
+  //     reader.readAsDataURL(event.target.files[0])
+  //     reader.onload = () => { 
+  //       imageBase64 = reader.result;
+  //     }
+  //     //reader.readAsDataURL(event.target.files[0]);
+  //     console.log(imageBase64);
+  //     //return imageBase64
+  //   };
+  // };
 
   /* 
   handleSubmit(event) {
@@ -124,13 +128,17 @@ function TicketMaker({ saveItem, addToIpsf }) {
             <Text>Edad minima ingreso: </Text>
             <Input ref={adadMinima} />
             <Text>Responsable: </Text>
-            <Input ref={responsable} />
+            <Input ref={admin} />
             <Text>Nit: </Text>
             <Input ref={nit} />
             <Text>Apertura puertas: </Text>
             <Input ref={aperturaDePuertas} />
             <Text>maximum capacity: </Text>
             <Input placeholder="tomas" ref={maxCapta} />
+            <Text>token name: </Text>
+            <Input placeholder="tomas" ref={tokenName} />
+            <Text>token symbol: </Text>
+            <Input placeholder="tomas" ref={tokenSymbol} />
             <Box>
               <Box>
                 {/* {!imageBase64 ? null : <Image src={imageBase64} alt=""></Image>} */}
@@ -138,7 +146,7 @@ function TicketMaker({ saveItem, addToIpsf }) {
               <div className="container">
                 <span className="hiddenFileInput">
                   <input
-                    onChange={onTransformImageToBase64}
+                    ref={nftImage}
                     type="file"
                     name="cambiar foto de perfil"
                     accept="image/x-png,image/gif,image/jpeg"
