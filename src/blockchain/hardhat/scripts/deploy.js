@@ -9,10 +9,10 @@ async function main() {
     console.log("CryptoTickets Contract was deployed to: " + cryptoTickets.address);
 
     let addresses = {
-        "bankcontract": cryptoTickets.address,
+        "cryptoticketcontract": cryptoTickets.address,
         }
     let addressesJSON = JSON.stringify(addresses);
-    fs.writeFileSync("../environment/contract-address.json", addressesJSON);
+    fs.writeFileSync("src/blockchain/environment/contract-address.json", addressesJSON);
 }
 
 main()
