@@ -27,6 +27,7 @@ function TicketMaker ({ saveItem, addToIpsf }) {
   const tokenSymbol = useRef()
 
   const handleSubmit = async () => {
+    console.log(state)
     const eventInfo = {
       adadMinima: adadMinima.current.value,
       admin: admin.current.value,
@@ -42,7 +43,7 @@ function TicketMaker ({ saveItem, addToIpsf }) {
       symbol: tokenSymbol.current.value,
       tokenName: tokenName.current.value
     }
-
+    
     await deployContract(setAddressContract, { admin: state.wallet, maxCapta: eventInfo.maxCapta, name: eventInfo.tokenName, symbol: eventInfo.symbol }) // burned data
     await addToIpsf(setEventHash, eventInfo)
     await saveItem(addressContract, eventInfo.admin, eventHash)
@@ -98,7 +99,6 @@ function TicketMaker ({ saveItem, addToIpsf }) {
             <input type="submit" />
   </form>
   */
-
   return (
     <Box width='100%' bg='white' marginBottom='1rem' paddingBottom='1rem'>
       <Box display='flex' justifyContent='center'>

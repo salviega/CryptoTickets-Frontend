@@ -1,17 +1,15 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { ethers } from 'ethers'
 
 import './TicketWallet.scss'
 import { Button } from '@chakra-ui/react'
 
 function TicketWallet ({ walletDesconected, setWalletDesconected }) {
-  const state = useSelector(state => state)
   const dispatch = useDispatch()
-
   const createProvider = (content) => {
     return {
-      type: 'walletConected',
+      type: 'walletConnected',
       payload: {
         wallet: content.wallet,
         provider: content.web3Provider,

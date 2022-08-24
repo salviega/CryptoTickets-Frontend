@@ -1,8 +1,7 @@
 const walletReducer = (state, action) => {
   switch (action.type) {
-    case 'walletConected':
-      state = action.payload
-      break
+    case 'walletConnected':
+      return action.payload
     default:
       return state
   }
